@@ -30,9 +30,23 @@ class Problem01To10Spec extends Specification {
     Problem05(20l) must_==(232792560)
   }
 
-//  "Problem 6 Should sum the factors" >> {
-//    Problem03(4000000) must_==(25164150)
+  "Problem 6 should find difference" >> {
+    Problem06(100) must_==(25164150)
+  }
+//
+//  "Problem 7 should find the 10001th prime" >> {
+//    Problem07(10001) must_==(104743)
 //  }
 
+  "Problem 8 should find the largest product of adjacent numbers" >> {
+    Problem08() must_==(23514624000L)
+  }
 
+  "Problem 9 should find the pythagorean triplet" >> {
+    Problem09() must_== 31875000
+  }
+
+  "Problem 10 should sum the primes below 2 million" >> {
+    Problem10() must_== 142913828922L
+  }
 }
