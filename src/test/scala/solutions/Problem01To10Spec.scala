@@ -33,10 +33,10 @@ class Problem01To10Spec extends Specification {
   "Problem 6 should find difference" >> {
     Problem06(100) must_==(25164150)
   }
-//
-//  "Problem 7 should find the 10001th prime" >> {
-//    Problem07(10001) must_==(104743)
-//  }
+
+  "Problem 7 should find the 10001th prime" >> {
+    Problem07(10001) must_==(104743)
+  }
 
   "Problem 8 should find the largest product of adjacent numbers" >> {
     Problem08() must_==(23514624000L)
@@ -49,4 +49,16 @@ class Problem01To10Spec extends Specification {
   "Problem 10 should sum the primes below 2 million" >> {
     Problem10() must_== 142913828922L
   }
+  //11. 70600674
+  //12. 76576500
+  //13. 5537376230
+  //14. 837799
+  //15. 137846528820
+  //16. 1366
+  //17. 21124
+  //18. 1074
+  //19. 171
+  //20. 648
+
+
 }

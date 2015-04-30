@@ -20,7 +20,7 @@ object Problem01To10 {
     fib(0,1).takeWhile(x => x < max).filter(x => x %2 == 0).sum
   }
 
-  def primes(i: Long): List[Long] = {
+  def primeFactors(i: Long): List[Long] = {
 
     def primes(num: Long, current: Int): List[Long] = {
       if (num == current)
@@ -35,7 +35,7 @@ object Problem01To10 {
   }
 
   def Problem03(x: Long) = {
-    primes(x).max
+    primeFactors(x).max
   }
 
   def isPalindrome(x: Int): Boolean = {
@@ -60,7 +60,7 @@ object Problem01To10 {
 
   def Problem05(i: Long) = {
     (i until i / 2 by -1)
-      .map(primes(_))
+      .map(primeFactors(_))
       .foldLeft(List[Long]())(diffUnion)
       .foldLeft(1l)(_*_)
   }
@@ -71,8 +71,8 @@ object Problem01To10 {
 
   def Problem07(pos: Int) = {
     // TODO: revisit this
-    def isPrime(x: Long) = { primes(x).length == 1 }
-    Iterator.from(1).filter(isPrime(_)).take(10001).drop(10000).next
+    //def isPrime(x: Long) = { primes(x).length == 1 }
+    Iterator.from(2).filter(isPrime(_)).take(10001).drop(10000).next
   }
 
   def Problem08() = {
@@ -91,8 +91,28 @@ object Problem01To10 {
     x.head
   }
 
+  def isPrime(x: Long) = {
+    if (x == 3 || x == 2) {
+      true
+    } else if (x % 2 == 0 || x % 3 == 0) {
+      false
+    } else  {
+      val sqrt = Math.sqrt(x).toInt
+      (5 to sqrt).forall(n => x % n != 0 && x % (n + 2) != 0)
+    }
+
+  }
+
+  // https://pavelfatin.com/scala-for-project-euler/
+  val primes: Stream[Long] = 2 #::
+    Stream.from(3, 2)
+          .map(_.toLong)
+          .filter(i => primes.takeWhile(j => j * j <= i)
+                             .forall(i % _ > 0))
+
+
   def Problem10() = {
-    //
+    primes.view.takeWhile(_ < 2000000).sum;
   }
 
   val prob8 = """73167176531330624919225119674426574742355349194934
