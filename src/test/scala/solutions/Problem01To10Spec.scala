@@ -49,16 +49,7 @@ class Problem01To10Spec extends Specification {
   "Problem 10 should sum the primes below 2 million" >> {
     Problem10() must_== 142913828922L
   }
-  //11. 70600674
-  //12. 76576500
-  //13. 5537376230
-  //14. 837799
-  //15. 137846528820
-  //16. 1366
-  //17. 21124
-  //18. 1074
-  //19. 171
-  //20. 648
+
 
 
 }

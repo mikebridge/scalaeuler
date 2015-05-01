@@ -70,8 +70,7 @@ object Problem01To10 {
   }
 
   def Problem07(pos: Int) = {
-    // TODO: revisit this
-    //def isPrime(x: Long) = { primes(x).length == 1 }
+    // TODO: is take neccessary?
     Iterator.from(2).filter(isPrime(_)).take(10001).drop(10000).next
   }
 
