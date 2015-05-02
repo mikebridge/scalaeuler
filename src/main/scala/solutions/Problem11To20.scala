@@ -1,5 +1,6 @@
 package solutions
 
+import scala.collection.mutable
 /**
  * Created by bridge on 30/04/15.
  */
@@ -15,12 +16,20 @@ object Problem11To20 {
     Array(maxhoriz, maxvert, maxdiag1, maxdiag2).max
   }
 
-  def divisors
-
   def Problem12 = {
+    def numFactors(x: Int): Int = {
+      (1 to x).takeWhile(n => n * n <= x)
+              .foldLeft(0)((count, n) => if (x % n == 0) count + 2 else count)
+    }
     def triangleTerm(x: Int) = (x + 1) * x / 2
-    todo: binary search?
+    Iterator.from(1).map(triangleTerm(_)).dropWhile(x => numFactors(x) < 501).next
   }
+
+
+  def Problem13 = {
+    "0000000000"
+  }
+
 
 
   def zeroArray(len:Int) = Array.fill(len)(0)

@@ -8,12 +8,18 @@ import solutions.Problem11To20._
  */
 class Problem11To20Spec  extends Specification {
 
-  "Problem 11 Find the maximum product of four adjacent numbers" >> {
+  "Problem 11 The maximum product of four adjacent numbers" >> {
     Problem11 must_==(70600674)
   }
-  //11. 70600674
-  //12. 76576500
-  //13. 5537376230
+
+  "Problem 12 The triangle number with over 500 divisors" >> {
+    Problem12 must_==(76576500)
+  }
+
+  "Problem 13 The first ten digits" >> {
+    Problem13 must_==(5537376230)
+  }
+
   //14. 837799
   //15. 137846528820
   //16. 1366
