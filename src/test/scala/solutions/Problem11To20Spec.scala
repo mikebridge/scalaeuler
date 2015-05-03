@@ -17,7 +17,7 @@ class Problem11To20Spec  extends Specification {
   }
 
   "Problem 13 The first ten digits" >> {
-    Problem13 must_==(5537376230)
+    Problem13 must_==("5537376230")
   }
 
   //14. 837799
