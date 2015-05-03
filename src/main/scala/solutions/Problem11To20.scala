@@ -51,6 +51,24 @@ object Problem11To20 {
 
   }
 
+  def Problem14 = {
+    def collatz(x:Long) = {
+      if (x % 2 == 0) {
+        x / 2
+      } else {
+        3 * x + 1
+      }
+    }
+    def collatzLen(x: Long): Long = {
+      if (x <= 1) {
+        return x
+      }
+      1 + collatzLen(collatz(x))
+    }
+    def maxTuple(a:(Long,Int), b:(Long,Int)) : (Long,Int) = if (a._1 >= b._1) a else b
+
+    Iterator.from(0).takeWhile(_ < 1000000).map(collatzLen(_)).zipWithIndex.reduceLeft(maxTuple)._2
+  }
 
 
   def zeroArray(len:Int) = Array.fill(len)(0)

@@ -20,6 +20,10 @@ class Problem11To20Spec  extends Specification {
     Problem13 must_==("5537376230")
   }
 
+  "Problem 14 The longest path" >> {
+    Problem14 must_==(837799)
+  }
+
   //14. 837799
   //15. 137846528820
   //16. 1366
