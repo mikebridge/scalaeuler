@@ -20,13 +20,18 @@ class Problem11To20Spec  extends Specification {
     Problem13 must_==("5537376230")
   }
 
-  "Problem 14 The longest path" >> {
+  "Problem 14 The sequence start position" >> {
     Problem14 must_==(837799)
   }
 
-  //14. 837799
-  //15. 137846528820
-  //16. 1366
+  "Problem 15 The longest path" >> {
+    Problem15 must_==(137846528820L)
+  }
+
+  "Problem 16 The sum of the digits of 2 to 1000" >> {
+    Problem16 must_==(1366)
+  }
+
   //17. 21124
   //18. 1074
   //19. 171

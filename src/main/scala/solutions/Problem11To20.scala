@@ -28,21 +28,9 @@ object Problem11To20 {
 
   def Problem13 = {
     // w/o using BigInt.
-    def splitSum(i:Int) : (Int, Int) = (i/10, i%10)
 
-    def sumBig(digits: Array[Int], carry:Int = 0): Array[Int] = {
-      val (toCarry, digit) = splitSum(digits.last + carry)
-      var headDigits=Array(0)
 
-      if (digits.length == 1) {
-        if (toCarry == 0) {
-          return Array(digit)
-        }
-      } else {
-         headDigits = digits.splitAt(digits.length - 1)._1
-      }
-      sumBig(headDigits, toCarry) :+ digit
-    }
+
     val input = (0 until string13(0).length)
           .map(i => string13.map(_(i).asDigit).sum)
           .map(arr => arr).toArray
@@ -70,6 +58,17 @@ object Problem11To20 {
     Iterator.from(0).takeWhile(_ < 1000000).map(collatzLen(_)).zipWithIndex.reduceLeft(maxTuple)._2
   }
 
+  def Problem15 = {
+    val size = 20
+    def addRow(a:Array[Long]): Array[Long] = a.scan(0L)(_ + _).tail
+    Function.chain(List.fill(size)(addRow(_)))(Array.fill(size + 1){1L}).last
+  }
+
+  def Problem16 = {
+    def doubleSumBig(a:Array[Int]) = sumBig(sumBig(a).zip(sumBig(a)).map(x => x._1 + x._2))
+    def doubleIt(times:Int) = Function.chain(List.fill(times - 1)(doubleSumBig(_)))(Array(2))
+    doubleIt(1000).sum
+  }
 
   def zeroArray(len:Int) = Array.fill(len)(0)
   def transpose(matrix: Array[Array[Int]]):Array[Array[Int]] = {
@@ -78,6 +77,21 @@ object Problem11To20 {
   }
   def maxProduct(row: Array[Int], groupSize: Int = 4): Int = {
     row.sliding(groupSize).map(_.product).max
+  }
+
+  def sumBig(digits: Array[Int], carry:Int = 0): Array[Int] = {
+    def splitSum(i:Int) : (Int, Int) = (i/10, i%10)
+    val (toCarry, digit) = splitSum(digits.last + carry)
+    var headDigits=Array(0)
+
+    if (digits.length == 1) {
+      if (toCarry == 0) {
+        return Array(digit)
+      }
+    } else {
+      headDigits = digits.splitAt(digits.length - 1)._1
+    }
+    sumBig(headDigits, toCarry) :+ digit
   }
 
   val matrix11 = Array(
