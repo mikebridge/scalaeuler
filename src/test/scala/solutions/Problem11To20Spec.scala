@@ -32,7 +32,13 @@ class Problem11To20Spec  extends Specification {
     Problem16 must_==(1366)
   }
 
-  //17. 21124
+  "Problem 17 The total letters of the numbers 1-1000" >> {
+    Problem17 must_==(21124)
+  }
+
+  "Problem 18 The maximum sum by following paths is" >> {
+    Problem18 must_==(1074)
+  }
   //18. 1074
   //19. 171
   //20. 648

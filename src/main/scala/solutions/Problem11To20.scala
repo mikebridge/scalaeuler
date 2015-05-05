@@ -23,19 +23,17 @@ object Problem11To20 {
               .foldLeft(0)((count, n) => if (x % n == 0) count + 2 else count)
     }
     def triangleTerm(x: Int) = (x + 1) * x / 2
-    Iterator.from(1).map(triangleTerm(_)).dropWhile(x => numFactors(x) < 501).next
+    Iterator.from(1).map(triangleTerm).dropWhile(x => numFactors(x) < 501).next
   }
 
   def Problem13 = {
     // w/o using BigInt.
 
-
-
     val input = (0 until string13(0).length)
           .map(i => string13.map(_(i).asDigit).sum)
           .map(arr => arr).toArray
 
-    sumBig(input).take(10).mkString
+    normalizeIntArray(input).take(10).mkString
 
   }
 
@@ -65,10 +63,86 @@ object Problem11To20 {
   }
 
   def Problem16 = {
-    def doubleSumBig(a:Array[Int]) = sumBig(sumBig(a).zip(sumBig(a)).map(x => x._1 + x._2))
+    def doubleSumBig(a:Array[Int]) = sumIntArraysAndNormalize(a,a)
     def doubleIt(times:Int) = Function.chain(List.fill(times - 1)(doubleSumBig(_)))(Array(2))
     doubleIt(1000).sum
   }
+
+  def Problem17 = {
+    (1 to 1000).map(numberString(_).length).sum
+  }
+
+  def Problem18 = {
+
+    def findNextSteps(a: Array[Int]):Array[Int] = (a.head +: a :+ a.last).sliding(2).toArray.map(_.max)
+    triangle18.reduce((parent,child) => sumIntArrays(findNextSteps(parent),child)).max
+
+  }
+
+  def numberString(x:Int): String = {
+    if (x == 1000) {
+      return "onethousand"
+    }
+    var result = ""
+    val h = x / 100
+    val t = (x % 100) / 10
+    val o = (x % 10)
+
+    if (h > 0) {
+      result += digitToString(h) +"hundred"
+    }
+    if (h > 0 && (t > 0 || o > 0)) {
+      result +="and"
+    }
+
+    if (t > 1) {
+      result += digitToTensString(t)
+    }
+    if (t == 1) {
+      result += digitToTeenString(x % 100)
+    } else if (o >= 1) {
+      result += digitToString(o);
+    }
+    result
+  }
+
+  def digitToString(x:Int) = x match {
+    case 1 => "one"
+    case 2 => "two"
+    case 3 => "three"
+    case 4 => "four"
+    case 5 => "five"
+    case 6 => "six"
+    case 7 => "seven"
+    case 8 => "eight"
+    case 9 => "nine"
+  }
+
+  def digitToTeenString(x:Int) = x match {
+    case 10 => "ten"
+    case 11 => "eleven"
+    case 12 => "twelve"
+    case 13 => "thirteen"
+    case 14 => "fourteen"
+    case 15 => "fifteen"
+    case 16 => "sixteen"
+    case 17 => "seventeen"
+    case 18 => "eighteen"
+    case 19 => "nineteen"
+  }
+
+  def digitToTensString(x:Int) = x match {
+    case 2 => "twenty"
+    case 3 => "thirty"
+    case 4 => "forty"
+    case 5 => "fifty"
+    case 6 => "sixty"
+    case 7 => "seventy"
+    case 8 => "eighty"
+    case 9 => "ninety"
+  }
+
+
 
   def zeroArray(len:Int) = Array.fill(len)(0)
   def transpose(matrix: Array[Array[Int]]):Array[Array[Int]] = {
@@ -79,7 +153,14 @@ object Problem11To20 {
     row.sliding(groupSize).map(_.product).max
   }
 
-  def sumBig(digits: Array[Int], carry:Int = 0): Array[Int] = {
+  def sumIntArrays(a: Array[Int], b:Array[Int]): Array[Int] = {
+    a.zip(b).map(x => x._1 + x._2)
+  }
+  def sumIntArraysAndNormalize(a: Array[Int], b:Array[Int]): Array[Int] = {
+    normalizeIntArray(sumIntArrays(normalizeIntArray(a), normalizeIntArray(b)))
+  }
+
+  def normalizeIntArray(digits: Array[Int], carry:Int = 0): Array[Int] = {
     def splitSum(i:Int) : (Int, Int) = (i/10, i%10)
     val (toCarry, digit) = splitSum(digits.last + carry)
     var headDigits=Array(0)
@@ -91,8 +172,25 @@ object Problem11To20 {
     } else {
       headDigits = digits.splitAt(digits.length - 1)._1
     }
-    sumBig(headDigits, toCarry) :+ digit
+    normalizeIntArray(headDigits, toCarry) :+ digit
   }
+
+  val triangle18 = Array(
+    Array(75),
+    Array(95,64),
+    Array(17,47,82),
+    Array(18,35,87,10),
+    Array(20,4,82,47,65),
+    Array(19,1,23,75,3,34),
+    Array(88,2,77,73,7,63,67),
+    Array(99,65,4,28,6,16,70,92),
+    Array(41,41,26,56,83,40,80,70,33),
+    Array(41,48,72,33,47,32,37,16,94,29),
+    Array(53,71,44,65,25,43,91,52,97,51,14),
+    Array(70,11,33,28,77,73,17,78,39,68,17,57),
+    Array(91,71,52,38,17,14,91,43,58,50,27,29,48),
+    Array(63,66,4,68,89,53,67,30,73,16,69,87,40,31),
+    Array(4,62,98,27,23,9,70,98,73,93,38,53,60,4,23))
 
   val matrix11 = Array(
     Array(8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8),
