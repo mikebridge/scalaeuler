@@ -73,10 +73,38 @@ object Problem11To20 {
   }
 
   def Problem18 = {
-
     def findNextSteps(a: Array[Int]):Array[Int] = (a.head +: a :+ a.last).sliding(2).toArray.map(_.max)
     triangle18.reduce((parent,child) => sumIntArrays(findNextSteps(parent),child)).max
+  }
 
+  // without using Dates
+  def Problem19 = {
+    // todo: fix this
+    val startYear = 1901
+    val endYear = 2000
+    dayOfMonthCycle(startYear,endYear).zip(cycle(weekCycle(startYear))).count(_ == (1,1))
+  }
+
+  def Problem20 = {
+
+  }
+
+  def weekCycle(year:Int): List[Int] = {
+    cycle(List(1,2,3,4,5,6,7)).drop(monthDays(year).length).take(7).toList
+  }
+
+  // http://stackoverflow.com/questions/2097851/scala-repeat-a-finite-list-infinitely#14649217-list-infinitely
+  def cycle[T](xs : List[T]) : Stream[T] = xs.toStream #::: cycle(xs)
+
+  def dayOfMonthCycle(startYear:Int, endYear:Int): Stream[Int] = {
+    (startYear to endYear).map(monthDays(_)).reduce((a,b) => a #::: b)
+  }
+
+  def monthDays(year:Int): Stream[Int] = {
+    val feb = if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) 29 else 28
+    val x = (1 to 31) ++ (1 to feb) ++ (1 to 31) ++ (1 to 30) ++ (1 to 31) ++ (1 to 30) ++
+      (1 to 31) ++ (1 to 31) ++ (1 to 30) ++ (1 to 31) ++ (1 to 30) ++ (1 to 31)
+    x.toStream
   }
 
   def numberString(x:Int): String = {

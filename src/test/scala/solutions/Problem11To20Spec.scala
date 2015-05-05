@@ -36,11 +36,16 @@ class Problem11To20Spec  extends Specification {
     Problem17 must_==(21124)
   }
 
-  "Problem 18 The maximum sum by following paths is" >> {
+  "Problem 18 The maximum sum by following paths" >> {
     Problem18 must_==(1074)
   }
-  //18. 1074
-  //19. 171
-  //20. 648
+
+  "Problem 19 The first-of-the-month sundays" >> {
+    Problem19 must_==(171)
+  }
+
+//  "Problem 20 The sum of the factorial digits" >> {
+//    Problem20 must_==(648)
+//  }
 
 }
