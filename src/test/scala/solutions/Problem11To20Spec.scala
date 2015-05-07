@@ -44,8 +44,8 @@ class Problem11To20Spec  extends Specification {
     Problem19 must_==(171)
   }
 
-//  "Problem 20 The sum of the factorial digits" >> {
-//    Problem20 must_==(648)
-//  }
+  "Problem 20 The sum of the factorial digits" >> {
+    Problem20 must_==(648)
+  }
 
 }

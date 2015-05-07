@@ -33,7 +33,7 @@ object Problem11To20 {
           .map(i => string13.map(_(i).asDigit).sum)
           .map(arr => arr).toArray
 
-    normalizeIntArray(input).take(10).mkString
+    carryIntArray(input).take(10).mkString
 
   }
 
@@ -79,19 +79,27 @@ object Problem11To20 {
 
   // without using Dates
   def Problem19 = {
-    // todo: fix this
+    val SUNDAY = 7
+    val MONDAY = 1
+    def weekCycle(year:Int): List[Int] = {
+
+      cycle(List(MONDAY,2,3,4,5,6,SUNDAY)).drop(monthDays(year).length).take(7).toList
+    }
+
     val startYear = 1901
     val endYear = 2000
-    dayOfMonthCycle(startYear,endYear).zip(cycle(weekCycle(startYear))).count(_ == (1,1))
+    dayOfMonthCycle(startYear,endYear).zip(cycle(weekCycle(startYear))).count(_ == (1, SUNDAY))
   }
 
   def Problem20 = {
-
+    (1 to 100).map(z => carryIntArray(Array(z))).reduce((a,b) => multIntArrays(a,b)).sum
   }
 
-  def weekCycle(year:Int): List[Int] = {
-    cycle(List(1,2,3,4,5,6,7)).drop(monthDays(year).length).take(7).toList
-  }
+  def posMod(a:Int, b:Int) = (a % b + b) % b
+
+  def cycle[T](xs : Stream[T]) : Stream[T] = xs #::: cycle(xs)
+
+  def shift[T](xs:Stream[T], x: Int) = cycle(xs).drop(posMod(x, xs.length)).take(xs.length).toList
 
   // http://stackoverflow.com/questions/2097851/scala-repeat-a-finite-list-infinitely#14649217-list-infinitely
   def cycle[T](xs : List[T]) : Stream[T] = xs.toStream #::: cycle(xs)
@@ -170,9 +178,6 @@ object Problem11To20 {
     case 9 => "ninety"
   }
 
-
-
-  def zeroArray(len:Int) = Array.fill(len)(0)
   def transpose(matrix: Array[Array[Int]]):Array[Array[Int]] = {
      (for (r <- 0 until matrix(0).length; c <- 0 until matrix.length) yield
         matrix(c)(r)).grouped(matrix.length).map(_.toArray).toArray
@@ -184,11 +189,21 @@ object Problem11To20 {
   def sumIntArrays(a: Array[Int], b:Array[Int]): Array[Int] = {
     a.zip(b).map(x => x._1 + x._2)
   }
-  def sumIntArraysAndNormalize(a: Array[Int], b:Array[Int]): Array[Int] = {
-    normalizeIntArray(sumIntArrays(normalizeIntArray(a), normalizeIntArray(b)))
+
+  def zeroArray(len:Int) = Array.fill(len)(0)
+
+  def multIntArrays(a: Array[Int], b:Array[Int]): Array[Int] = {
+    // TODO a and b need to be the same length
+    a.zipWithIndex.map{
+      case(a1, index)=> zeroArray(index) ++ b.map(b1 => (b1 * a1)) ++ zeroArray(a.length - index - 1)
+    }.reduce(sumIntArraysAndNormalize(_,_))
   }
 
-  def normalizeIntArray(digits: Array[Int], carry:Int = 0): Array[Int] = {
+  def sumIntArraysAndNormalize(a: Array[Int], b:Array[Int]): Array[Int] = {
+    carryIntArray(sumIntArrays(carryIntArray(a), carryIntArray(b)))
+  }
+
+  def carryIntArray(digits: Array[Int], carry:Int = 0): Array[Int] = {
     def splitSum(i:Int) : (Int, Int) = (i/10, i%10)
     val (toCarry, digit) = splitSum(digits.last + carry)
     var headDigits=Array(0)
@@ -200,7 +215,7 @@ object Problem11To20 {
     } else {
       headDigits = digits.splitAt(digits.length - 1)._1
     }
-    normalizeIntArray(headDigits, toCarry) :+ digit
+    carryIntArray(headDigits, toCarry) :+ digit
   }
 
   val triangle18 = Array(
